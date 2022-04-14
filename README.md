@@ -1,4 +1,4 @@
-# PDF Scan
+# PII Scan
 
 This application will scan down the directory tree, from which it is launched, an look for Personally Identifiable Information (PII) in specific file types. 
 A report will be generated with a list of file paths and the type of data which was matched. This tool is not meant as a full replacement for file analysis, 
