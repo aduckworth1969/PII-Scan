@@ -79,22 +79,24 @@ def fileType(filePath):
     return fileLines
 
 def processText(preppedFiles):
-    searchCriteria = {'[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]':'SSN','[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]':'EMPLID','[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]':'Bank',
+    searchCriteria = {'Category 4':{'[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]':'SSN','[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]':'Bank',
     '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]':'Bank or Credit','[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]':'Credit',
-    '(?:[a-z0-9!#$%&*+\=?^_`{|}~-]+(?:\.[a-z0-9!#$%&*+\=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)'\
-    '+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])':'email',
     '^((?!11-1111111)(?!22-2222222)(?!33-3333333)(?!44-4444444)(?!55-5555555)(?!66-6666666)(?!77-7777777)(?!88-8888888)(?!99-9999999)(?!12-3456789)(?!00-[0-9]{7})([0-9]{2}-[0-9]{7}))*$':'Tax ID',
-    '^(\d)\1-\1{7}$':'Tax ID','^(?=.{12}$)[A-Z]{1,7}[A-Z0-9\\*]{4,11}$':'WADL','[mM]ale|[fF]emale':'Gender','[cC]aucasian|[aA]sian [pP]acific [iI]slander|[aA]frican [aA]merican':'Race','[mM]arried|[sS]ingle':'Family Status',
-    '[fF]ull [tT]ime|[pP]art [tT]ime':'Employment Status'}
+    '^(\d)\1-\1{7}$':'Tax ID','^(?=.{12}$)[A-Z]{1,7}[A-Z0-9\\*]{4,11}$':'WADL'},'Category 3':{'[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]':'EMPLID','[mM]ale|[fF]emale':'Gender',
+    '[cC]aucasian|[aA]sian [pP]acific [iI]slander|[aA]frican [aA]merican':'Race','[mM]arried|[sS]ingle':'Family Status','[fF]ull [tT]ime|[pP]art [tT]ime':'Employment Status'},'Category 2':
+    {},'Category 1':{'(?:[a-z0-9!#$%&*+\=?^_`{|}~-]+(?:\.[a-z0-9!#$%&*+\=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)'\
+    '+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])':'email'}}
     processedFiles = {}
-    for r,d in searchCriteria.items():
-        for p,t in preppedFiles.items():
-            for li in t:
-                regex = re.search(r,li)
-                if regex:
-                    processedFiles.update({p:d})
+    for c,i in searchCriteria.items():
+        for r,d in i.items():
+            for p,t in preppedFiles.items():
+                for li in t:
+                    regex = re.search(r,li)
+                    if regex:
+                        processedFiles.update({li:{p:{d:c}}})
 
-    print(processedFiles)
+    reportDataframe = pd.DataFrame.from_dict(processedFiles,orient='index')
+    print(reportDataframe)
 
 if __name__ == "__main__":
     main()
