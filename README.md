@@ -8,6 +8,7 @@ but as a method to quickly identify a subset of files that could be set aside fo
 - Plain Text (.txt)
 - Excel (.xls and .xlsx)
 - Comma separated value (.csv)
+
 This application uses Regular Expression patterns to look for the following PII:
 - Social Security Number (xxx-xx-xxxx)
 - Employee ID Number (10-digit number)
