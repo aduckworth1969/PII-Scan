@@ -1,0 +1,18 @@
+- I may be able to create a Python program that scans files in folders/subfolders looking for patterns that match sensitive information. I can model it after my profanity checker application, I think. Will need to expand my Regex skills though. Some things I will need to think about:
+	- Potential libraries
+		- [DataProfiler](https://github.com/capitalone/DataProfiler)
+	- Scan file types:
+		- PDF
+		- Word
+		- Excel
+		- Text
+		- .csv
+	- Identify patterns for sensitive information (review OCIO policy):
+		- SSN
+		- EMPLID
+		- Bank Account Numbers
+	- Ensure that all subfolders are included in the scan
+	- When one instance is found then the scan can move on
+	- Log all files in an Excel file
+		- Filename
+		- File path
