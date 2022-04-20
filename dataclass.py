@@ -93,10 +93,10 @@ def processText(preppedFiles):
                 for li in t:
                     regex = re.search(r,li)
                     if regex:
-                        processedFiles.update({li:{p:{d:c}}})
+                        processedFiles.update({li:p})
 
     reportDataframe = pd.DataFrame.from_dict(processedFiles,orient='index')
-    print(reportDataframe)
+    print(processedFiles)
 
 if __name__ == "__main__":
     main()
