@@ -7,3 +7,5 @@ test.xlsx
 testing.py
 PII Scan.code-workspace
 ReportFile.csv
+__pycache__
+output
